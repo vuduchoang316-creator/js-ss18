@@ -31,7 +31,7 @@ renderData();
 const handleAddTask = () => {
      let todo = {
         id:Date.now(),
-        task:inputEl.value.trim(),
+        task:inputEl.value,
         isDone:false
      }
      todos.push(todo);
@@ -39,25 +39,23 @@ const handleAddTask = () => {
      renderData();
      inputEl.value = '';
 }
+let index;
 btn.addEventListener("click",handleAddTask);
 const handleEditTask = (idTask) => {
-    let text = todos.find((a) => {
-        return a.id === idTask;
+    index = todos.findIndex((a) => {    
+        return a.id == idTask;
     });
-    inputEl.value = text.task;
+    inputEl.value = todos[index].task;
     idUpdate = idTask;
     btn.style.display = "none";
     btn_edit.style.display = "inline";
     inputEl.focus();
     idUpdate = idTask;
+    console.log(index);
 };
 btn_edit.addEventListener("click" , () => {
     let newTask = inputEl.value;
-    let index = todos.findIndex((a) => {
-        return a.id === idUpdate;
-    });
     todos[index].task = newTask;
-    console.log(todos[index].task);
     localStorage.setItem("listTodo",JSON.stringify(todos));
     renderData();
     btn.style.display = "inline";
@@ -66,7 +64,7 @@ btn_edit.addEventListener("click" , () => {
 });
 const handleDeleteTask = (idTask) => {
     let index = todos.findIndex((a) => {
-        return a.id === idTask;
+        return a.id == idTask;
     });
     todos.splice(index,1);
     localStorage.setItem("listTodo",JSON.stringify(todos));
